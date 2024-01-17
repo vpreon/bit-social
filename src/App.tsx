@@ -10,6 +10,8 @@ function App() {
     <ChakraProvider>
       <Router>
         <AppRoutes />
+        tetst
+         <p>qq</p>
       </Router>
     </ChakraProvider>
   );
