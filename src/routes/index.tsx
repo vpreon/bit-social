@@ -1,13 +1,12 @@
-import {useRoutes} from "react-router-dom";
-import {Landing} from "@/features/misc";
-import {publicRoutes} from "@/routes/public";
+import { useRoutes } from 'react-router-dom';
 
+import { Landing } from '@/features/misc';
+import { publicRoutes } from '@/routes/public';
 
 export const AppRoutes = () => {
-
-  const commonRoutes = [{"path": "/", element: <Landing/>}]
+  const commonRoutes = [{ path: '/', element: <Landing /> }];
   const routes = publicRoutes;
 
-  const element = useRoutes([...routes, ...commonRoutes])
-  return <>{element}</>
-}
+  const element = useRoutes([...routes, ...commonRoutes]);
+  return <>{element}</>;
+};

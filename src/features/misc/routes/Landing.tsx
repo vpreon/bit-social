@@ -1,5 +1,3 @@
-export const Landing = ()=>{
-  return (
-    <h1>This is Landing</h1>
-  )
-}
+export const Landing = () => {
+  return <h1>This is Landing</h1>;
+};
