@@ -12,10 +12,11 @@ import {
   Link,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useState } from 'react';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { Link as ReactRouterLink } from 'react-router-dom';
 import { z } from 'zod';
+
+import { loginQry } from '../api/login';
 
 const schema = z.object({
   email: z.string().min(1, 'Email is required'),
@@ -25,7 +26,7 @@ const schema = z.object({
 type Form = z.infer<typeof schema>;
 
 export const Login = () => {
-  const [data, setData] = useState<Form>();
+  // const [data, setData] = useState<Form>();
 
   const {
     register,
@@ -35,7 +36,11 @@ export const Login = () => {
     resolver: zodResolver(schema),
   });
 
-  const processForm: SubmitHandler<Form> = (data) => setData(data);
+  const processForm: SubmitHandler<Form> = async (data) => {
+    await loginQry(data).then((res) => {
+      console.log('data', res.data);
+    });
+  };
 
   return (
     <Flex justify="center" alignItems="center" height="100%">
@@ -70,7 +75,7 @@ export const Login = () => {
             <Button type="submit">Login</Button>
           </Stack>
         </form>
-        <pre>{JSON.stringify(data, null, 2)}</pre>
+        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </Container>
     </Flex>
   );
