@@ -10,6 +10,7 @@ import {
   Text,
   Checkbox,
   Link,
+  FormErrorMessage,
 } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { SubmitHandler, useForm } from 'react-hook-form';
@@ -19,15 +20,13 @@ import { z } from 'zod';
 import { loginQry } from '../api/login';
 
 const schema = z.object({
-  email: z.string().min(1, 'Email is required'),
+  email: z.string().email().min(1, 'Email is required'),
   password: z.string().min(1, 'Password is required'),
 });
 
 type Form = z.infer<typeof schema>;
 
 export const Login = () => {
-  // const [data, setData] = useState<Form>();
-
   const {
     register,
     handleSubmit,
@@ -37,7 +36,7 @@ export const Login = () => {
   });
 
   const processForm: SubmitHandler<Form> = async (data) => {
-    await loginQry(data).then((res) => {
+    await loginQry({ ...data }).then((res) => {
       console.log('data', res.data);
     });
   };
@@ -54,15 +53,15 @@ export const Login = () => {
 
         <form onSubmit={handleSubmit(processForm)}>
           <Box marginY="20px">
-            <FormControl>
+            <FormControl isInvalid={!!errors.email}>
               <FormLabel> Email</FormLabel>
-              <Input type="email" {...register('email')} />
-              {errors.email?.message && <p>{errors.email.message}</p>}
+              <Input type="text" {...register('email')} />
+              <FormErrorMessage>{errors.email?.message}</FormErrorMessage>
             </FormControl>
-            <FormControl>
+            <FormControl isInvalid={!!errors.password}>
               <FormLabel> Password</FormLabel>
               <Input type="password" {...register('password')} />
-              {errors.password?.message && <p>{errors.password.message}</p>}
+              <FormErrorMessage>{errors.password?.message}</FormErrorMessage>
             </FormControl>
           </Box>
           <Box display="flex" justifyContent="space-between">
@@ -75,7 +74,6 @@ export const Login = () => {
             <Button type="submit">Login</Button>
           </Stack>
         </form>
-        {/* <pre>{JSON.stringify(data, null, 2)}</pre> */}
       </Container>
     </Flex>
   );
