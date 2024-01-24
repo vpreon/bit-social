@@ -2,6 +2,6 @@
 import { publicRoutes } from '@/routes/public';
 
 import { commonRoutes } from './common';
-// import { privateRoutes } from './private';
+import { PrivateRoutes } from './private';
 
-export const AppRoutes = [...publicRoutes, ...commonRoutes];
+export const AppRoutes = [...PrivateRoutes, ...publicRoutes, ...commonRoutes];

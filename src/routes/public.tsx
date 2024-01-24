@@ -1,7 +1,7 @@
-import { HomeRoutes } from '@/features/home/';
 import { lazyImport } from '@/utils/lazyImport';
 
 const { AuthRoutes } = lazyImport(() => import('@/features/auth'), 'AuthRoutes');
+const { HomeRoutes } = lazyImport(() => import('@/features/home'), 'HomeRoutes');
 
 export const publicRoutes = [
   {
