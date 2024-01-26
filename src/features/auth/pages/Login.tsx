@@ -50,7 +50,6 @@ export const Login = () => {
       navigate('/home');
     });
   };
-  console.log('here');
 
   return (
     <Flex justify="center" alignItems="center" height="100%">
