@@ -1,5 +1,6 @@
 import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import './App.css';
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { AppRoutes } from './routes';
@@ -11,12 +12,15 @@ const config = {
 };
 
 const theme = extendTheme({ config });
+const queryClient = new QueryClient();
 
 function App() {
   return (
-    <ChakraProvider theme={theme}>
-      <RouterProvider router={router}></RouterProvider>
-    </ChakraProvider>
+    <QueryClientProvider client={queryClient}>
+      <ChakraProvider theme={theme}>
+        <RouterProvider router={router}></RouterProvider>
+      </ChakraProvider>
+    </QueryClientProvider>
   );
 }
 

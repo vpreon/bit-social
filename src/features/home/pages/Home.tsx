@@ -1,7 +1,7 @@
 import { Container, Grid, GridItem } from '@chakra-ui/react';
 
 import { CreatePost } from '../components/CreatePost';
-import { Post } from '../components/Post';
+import { Posts } from '../components/Posts';
 
 export const Home = () => {
   const properties = [
@@ -27,7 +27,7 @@ export const Home = () => {
         <Container backgroundColor="BlackAlpha 700">
           <CreatePost></CreatePost>
           {properties.map((item, key) => (
-            <Post key={key} {...item} />
+            <Posts key={key} {...item} />
           ))}
         </Container>
       </GridItem>

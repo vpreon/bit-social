@@ -1,8 +1,8 @@
 import { Text, Box, Image } from '@chakra-ui/react';
 
-import { Post as PostProps } from '../types';
+import { PostProps } from '../types';
 
-export const Post = (props: PostProps) => {
+export const Posts = (props: PostProps) => {
   return (
     <Box maxW="600px" borderWidth="1px" borderRadius="lg">
       <Image src={props.image}></Image>
