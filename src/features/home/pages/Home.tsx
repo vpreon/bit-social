@@ -1,18 +1,22 @@
-import { Grid, GridItem } from '@chakra-ui/react';
+import { Container, Grid, GridItem } from '@chakra-ui/react';
 
-import { Posts } from '../components/posts';
+import { CreatePost } from '../components/CreatePost';
+import { Post } from '../components/Post';
 
 export const Home = () => {
   const properties = [
     {
-      imageUrl: 'https://bit.ly/2Z4KKcF',
+      image: 'https://bit.ly/2Z4KKcF',
       imageAlt: 'Rear view of modern home with pool',
       beds: 3,
       baths: 2,
-      title: 'Modern home in city center in the heart of historic Los Angeles',
+      text: 'Modern home in city center in the heart of historic Los Angeles',
       formattedPrice: '$1,900.00',
       reviewCount: 34,
       rating: 4,
+      id: 1,
+      created: '2024-01-01',
+      updated: '2024-01-01',
     },
   ];
 
@@ -20,9 +24,12 @@ export const Home = () => {
     <Grid h="100%" templateColumns="repeat(12, 1fr)">
       <GridItem colSpan={2}>left</GridItem>
       <GridItem colSpan={8}>
-        {properties.map((item, key) => (
-          <Posts key={key} {...item} />
-        ))}
+        <Container backgroundColor="BlackAlpha 700">
+          <CreatePost></CreatePost>
+          {properties.map((item, key) => (
+            <Post key={key} {...item} />
+          ))}
+        </Container>
       </GridItem>
       <GridItem colSpan={2}>right</GridItem>
     </Grid>

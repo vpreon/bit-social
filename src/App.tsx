@@ -1,14 +1,20 @@
-import { ChakraProvider } from '@chakra-ui/react';
+import { ChakraProvider, extendTheme } from '@chakra-ui/react';
 import './App.css';
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 
 import { AppRoutes } from './routes';
 
 const router = createBrowserRouter(AppRoutes);
+const config = {
+  initialColorMode: 'dark',
+  useSystemColorMode: false,
+};
+
+const theme = extendTheme({ config });
 
 function App() {
   return (
-    <ChakraProvider>
+    <ChakraProvider theme={theme}>
       <RouterProvider router={router}></RouterProvider>
     </ChakraProvider>
   );
