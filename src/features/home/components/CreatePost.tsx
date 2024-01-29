@@ -1,6 +1,6 @@
 import { Box, Button, Textarea } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { SubmitHandler, useForm } from 'react-hook-form';
 import { z } from 'zod';
 
@@ -21,12 +21,12 @@ export const CreatePost = () => {
     resolver: zodResolver(schema),
   });
 
-  //   const queryClient = useQueryClient();
+  const queryClient = useQueryClient();
 
   const mutation = useMutation({
     mutationFn: postQry,
     onSuccess: () => {
-      console.log('success');
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
     },
   });
 
