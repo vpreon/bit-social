@@ -1,22 +1,23 @@
 import { Box, Button, Textarea } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
-import { SubmitHandler, useForm } from 'react-hook-form';
+import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { postQry } from '../api/post';
 
-export const CreatePost = () => {
-  const schema = z.object({
-    text: z.string().min(1, 'Text is Required'),
-  });
+const schema = z.object({
+  text: z.string().min(1, 'Text is Required'),
+});
 
+export const CreatePost = () => {
   type Form = z.infer<typeof schema>;
 
   const {
     register,
     handleSubmit,
     formState: { isValid },
+    reset,
   } = useForm<Form>({
     resolver: zodResolver(schema),
   });
@@ -27,18 +28,13 @@ export const CreatePost = () => {
     mutationFn: postQry,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['posts'] });
+      reset();
     },
   });
 
-  const submitPost: SubmitHandler<Form> = (data) => {
-    const result = mutation.mutateAsync(data);
-    console.log('result', result);
-  };
-
   return (
     <Box>
-      <form onSubmit={handleSubmit(submitPost)}>
-        {isValid ? 'valid' : 'invalid'}
+      <form onSubmit={handleSubmit((data) => mutation.mutate(data))}>
         <Textarea placeholder="What's in your mind?" {...register('text')}></Textarea>
         <Button type="submit" isDisabled={!isValid}>
           Post

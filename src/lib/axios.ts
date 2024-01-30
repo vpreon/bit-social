@@ -10,6 +10,7 @@ function authInterceptor(config: any) {
     if (!config.headers) config.headers = {};
     config.headers.authorization = `Token ${token}`;
   }
+
   return config;
 }
 
