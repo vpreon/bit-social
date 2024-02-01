@@ -1,7 +1,7 @@
 import { Text, Box, Image, Button } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { deletePostsQry } from '../api/post';
+import { deletePostsQry, postReactQry } from '../api/post';
 import { PostProps } from '../types';
 
 export const Post = (props: PostProps) => {
@@ -14,12 +14,24 @@ export const Post = (props: PostProps) => {
     },
   });
 
+  const likeMutation = useMutation({
+    mutationFn: (data: { id: number; react: string }) => {
+      return postReactQry(data.id, { react: data.react });
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
+
   return (
     <Box maxW="600px" borderWidth="1px" borderRadius="lg">
       <Image src={props.image}></Image>
 
       <Text>{props.text}</Text>
       <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
+      <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
+        {props.reacted ? 'LIKED' : 'LIKE'}
+      </Button>
     </Box>
   );
 };

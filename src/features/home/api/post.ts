@@ -13,3 +13,7 @@ export const getPostsQry = (): Promise<PostProps[]> => {
 export const deletePostsQry = (id: number) => {
   return axios.delete(`/posts/${id}/`).then((res) => res.data);
 };
+
+export const postReactQry = (id: number, data: { react: string }) => {
+  return axios.post(`/posts/${id}/reacts/`, data).then((res) => res.data);
+};
