@@ -4,6 +4,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { deletePostsQry, postReactQry } from '../api/post';
 import { PostProps } from '../types';
 
+import { Comment } from './Comments';
 export const Post = (props: PostProps) => {
   const queryClient = useQueryClient();
 
@@ -32,6 +33,8 @@ export const Post = (props: PostProps) => {
       <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
         {props.reacted ? 'LIKED' : 'LIKE'}
       </Button>
+
+      <Comment id={props.id} comments={props.comments}></Comment>
     </Box>
   );
 };
