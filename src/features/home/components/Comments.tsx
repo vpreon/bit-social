@@ -1,10 +1,11 @@
+import { CloseIcon } from '@chakra-ui/icons';
 import { Button, Textarea } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
-import { postCommentQry } from '../api/comments';
+import { deleteCommentQry, postCommentQry } from '../api/comments';
 import { CommentProps } from '../types';
 
 type CommentsProps = {
@@ -38,11 +39,28 @@ export const Comment = (props: CommentsProps) => {
     },
   });
 
+  const removeCommentMutation = useMutation({
+    mutationFn: (data: { id: number; commentId: number }) => {
+      return deleteCommentQry(data.id, data.commentId);
+    },
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+      reset();
+    },
+  });
+
   return (
     <div>
       <p>Comments</p>
       {props.comments.map((item) => {
-        return <p key={item.id}>{item.text}</p>;
+        return (
+          <div key={item.id}>
+            <p>{item.text}</p>
+            <CloseIcon
+              onClick={() => removeCommentMutation.mutate({ id: props.id, commentId: item.id })}
+            />
+          </div>
+        );
       })}
       <div>
         <form onSubmit={handleSubmit((data) => mutation.mutate({ id: props.id, text: data.text }))}>
