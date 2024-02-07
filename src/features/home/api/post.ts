@@ -2,7 +2,7 @@ import { axios } from '@/lib/axios';
 
 import { PostProps } from '../types';
 
-export const postQry = (data: { text: string }): Promise<any> => {
+export const postQry = (data: { text?: string; post?: number }): Promise<any> => {
   return axios.post('/posts/', data);
 };
 

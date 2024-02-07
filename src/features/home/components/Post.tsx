@@ -1,7 +1,7 @@
 import { Text, Box, Image, Button } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
-import { deletePostsQry, postReactQry } from '../api/post';
+import { deletePostsQry, postQry, postReactQry } from '../api/post';
 import { PostProps } from '../types';
 
 import { Comment } from './Comments';
@@ -24,17 +24,41 @@ export const Post = (props: PostProps) => {
     },
   });
 
-  return (
-    <Box maxW="600px" borderWidth="1px" borderRadius="lg">
-      <Image src={props.image}></Image>
+  const postMutation = useMutation({
+    mutationFn: postQry,
+    onSuccess: () => {
+      queryClient.invalidateQueries({ queryKey: ['posts'] });
+    },
+  });
 
-      <Text>{props.text}</Text>
-      <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
-      <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
-        {props.reacted ? 'LIKED' : 'LIKE'}
-      </Button>
+  if (props.share) {
+    return (
+      <Box maxW="600px" borderWidth="1px" borderRadius="lg">
+        <p>Shared</p>
+        <Image src={props.share.image}></Image>
+        <Text>{props.share.text}</Text>
+        <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
+        <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
+          {props.reacted ? 'LIKED' : 'LIKE'}
+        </Button>
+        <Button onClick={() => postMutation.mutate({})}>Share</Button>
 
-      <Comment id={props.id} comments={props.comments}></Comment>
-    </Box>
-  );
+        <Comment id={props.id} comments={props.comments}></Comment>
+      </Box>
+    );
+  } else {
+    return (
+      <Box maxW="600px" borderWidth="1px" borderRadius="lg">
+        <Image src={props.image}></Image>
+        <Text>{props.text}</Text>
+        <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
+        <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
+          {props.reacted ? 'LIKED' : 'LIKE'}
+        </Button>
+        <Button onClick={() => postMutation.mutate({ post: props.id })}>Share</Button>
+
+        <Comment id={props.id} comments={props.comments}></Comment>
+      </Box>
+    );
+  }
 };
