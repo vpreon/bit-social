@@ -5,9 +5,14 @@ export type CommentProps = {
   text: string;
 };
 
+export type Media = {
+  id?: string;
+  image: File | string;
+};
+
 export type BasePostProps = BaseAPIEntity & {
   text: string;
-  image: string;
+  medias: Media[];
   reacts: number;
   reacted: boolean;
   comments: CommentProps[];

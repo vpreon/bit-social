@@ -35,7 +35,7 @@ export const Post = (props: PostProps) => {
     return (
       <Box maxW="600px" borderWidth="1px" borderRadius="lg">
         <p>Shared</p>
-        <Image src={props.share.image}></Image>
+        {/* <Image src={props.share.image}></Image> */}
         <Text>{props.share.text}</Text>
         <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
         <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
@@ -49,7 +49,9 @@ export const Post = (props: PostProps) => {
   } else {
     return (
       <Box maxW="600px" borderWidth="1px" borderRadius="lg">
-        <Image src={props.image}></Image>
+        {props.medias.map((media) => {
+          return <Image key={media.id} src={media.image as string} />;
+        })}
         <Text>{props.text}</Text>
         <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
         <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>

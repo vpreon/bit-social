@@ -3,7 +3,7 @@ import { axios } from '@/lib/axios';
 import { PostProps } from '../types';
 
 export const postQry = (data: { text?: string; post?: number }): Promise<any> => {
-  return axios.post('/posts/', data);
+  return axios.post('/posts/', data).then((res) => res.data);
 };
 
 export const getPostsQry = (): Promise<PostProps[]> => {
