@@ -1,10 +1,11 @@
-import { Text, Box, Image, Button } from '@chakra-ui/react';
+import { Text, Box, Button } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 
 import { deletePostsQry, postQry, postReactQry } from '../api/post';
 import { PostProps } from '../types';
 
 import { Comment } from './Comments';
+import { Gallery } from './Gallery';
 export const Post = (props: PostProps) => {
   const queryClient = useQueryClient();
 
@@ -35,7 +36,7 @@ export const Post = (props: PostProps) => {
     return (
       <Box maxW="600px" borderWidth="1px" borderRadius="lg">
         <p>Shared</p>
-        {/* <Image src={props.share.image}></Image> */}
+        <Gallery {...props.share}></Gallery>
         <Text>{props.share.text}</Text>
         <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
         <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
@@ -49,9 +50,7 @@ export const Post = (props: PostProps) => {
   } else {
     return (
       <Box maxW="600px" borderWidth="1px" borderRadius="lg">
-        {props.medias.map((media) => {
-          return <Image key={media.id} src={media.image as string} />;
-        })}
+        <Gallery {...props}></Gallery>
         <Text>{props.text}</Text>
         <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
         <Button onClick={() => likeMutation.mutate({ id: props.id, react: 'LIKE' })}>
