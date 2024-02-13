@@ -6,6 +6,7 @@ import { PostProps } from '../types';
 
 import { Comment } from './Comments';
 import { Gallery } from './Gallery';
+import { PostUser } from './PostUser';
 export const Post = (props: PostProps) => {
   const queryClient = useQueryClient();
 
@@ -36,6 +37,7 @@ export const Post = (props: PostProps) => {
     return (
       <Box maxW="600px" borderWidth="1px" borderRadius="lg">
         <p>Shared</p>
+        <PostUser {...props.share.user} created={props.share.created} />
         <Gallery {...props.share}></Gallery>
         <Text>{props.share.text}</Text>
         <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
@@ -50,6 +52,8 @@ export const Post = (props: PostProps) => {
   } else {
     return (
       <Box maxW="600px" borderWidth="1px" borderRadius="lg">
+        <PostUser {...props.user} created={props.created} />
+
         <Gallery {...props}></Gallery>
         <Text>{props.text}</Text>
         <Button onClick={() => mutation.mutate(props.id)}>Delete</Button>
