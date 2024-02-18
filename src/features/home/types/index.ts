@@ -2,7 +2,7 @@ import { BaseAPIEntity } from '@/types';
 
 import { User } from '../../profile/types';
 
-export type CommentProps = {
+export type Comment = {
   id: number;
   text: string;
 };
@@ -12,18 +12,15 @@ export type Media = {
   image: File | string;
 };
 
-export type BasePostProps = BaseAPIEntity & {
+export type BasePost = BaseAPIEntity & {
   text: string;
   medias: Media[];
   reacts: number;
   reacted: boolean;
-  comments: CommentProps[];
+  comments: Comment[];
   user: User;
-  created: string;
-  updated: string;
 };
 
-export type PostProps = BasePostProps & {
-  share: BasePostProps;
-  user: User;
+export type Post = BasePost & {
+  share?: BasePost;
 };

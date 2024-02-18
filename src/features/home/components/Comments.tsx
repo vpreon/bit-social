@@ -6,7 +6,7 @@ import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
 import { deleteCommentQry, postCommentQry } from '../api/comments';
-import { CommentProps } from '../types';
+import { Comment as CommentProps } from '../types';
 
 type CommentsProps = {
   comments: CommentProps[];
@@ -17,7 +17,7 @@ const schema = z.object({
   text: z.string().min(1, 'Text is Required'),
 });
 
-export const Comment = (props: CommentsProps) => {
+export const Comments = (props: CommentsProps) => {
   type Form = z.infer<typeof schema>;
 
   const {

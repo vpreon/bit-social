@@ -11,13 +11,24 @@ export const PostUser = (props: PostUserProps) => {
   const formatCreated = moment(props.created).fromNow();
 
   return (
-    <Box display="flex" justifyContent={'space-between'} p="10px 10px 10px 5px">
-      <Box display="flex">
-        <Avatar name={`${props.first_name} ${props.last_name}`} src={props.profile_image} />
-        <Text pl="5px" textTransform="capitalize">{`${props.first_name} ${props.last_name}`}</Text>
-      </Box>
-      <Box>
-        <Text>{formatCreated}</Text>
+    <Box position="relative" pb="25px">
+      <Avatar
+        name={`${props.first_name} ${props.last_name}`}
+        src={props.profile_image}
+        position="absolute"
+        left="10px"
+        top="2px"
+      />
+      <Box display="flex" justifyContent={'space-between'} p="0 10px 10px 60px">
+        <Box display="flex">
+          <Text
+            pl="5px"
+            textTransform="capitalize"
+          >{`${props.first_name} ${props.last_name}`}</Text>
+        </Box>
+        <Box>
+          <Text>{formatCreated}</Text>
+        </Box>
       </Box>
     </Box>
   );
