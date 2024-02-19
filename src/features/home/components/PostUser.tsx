@@ -11,13 +11,13 @@ export const PostUser = (props: PostUserProps) => {
   const formatCreated = moment(props.created).fromNow();
 
   return (
-    <Box position="relative" pb="25px">
+    <Box position="relative" paddingBottom="25px" paddingTop="10px">
       <Avatar
         name={`${props.first_name} ${props.last_name}`}
         src={props.profile_image}
         position="absolute"
         left="10px"
-        top="2px"
+        top="10px"
       />
       <Box display="flex" justifyContent={'space-between'} p="0 10px 10px 60px">
         <Box display="flex">

@@ -14,8 +14,7 @@ export const Home = () => {
       <GridItem colSpan={8}>
         <Container backgroundColor="BlackAlpha 700">
           <CreatePost></CreatePost>
-
-          {data ? data.map((item, key) => <Post key={key} {...item} />) : ''}
+          {data && data.map((item, key) => <Post key={key} {...item} />)}
         </Container>
       </GridItem>
       <GridItem colSpan={2}>right</GridItem>

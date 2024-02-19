@@ -1,25 +1,18 @@
 import { Box, Icon, Text } from '@chakra-ui/react';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { GoComment, GoSmiley, GoShare } from 'react-icons/go';
-import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
 
-import { deletePostsQry, postQry, postReactQry } from '../api/post';
+import { postQry, postReactQry } from '../api/post';
 import { BasePost } from '../types';
 
 import { Comments } from './Comments';
 import { Gallery } from './Gallery';
+import { PostExtraActions } from './PostExtraActions';
 import { PostUser } from './PostUser';
 
-export const PostDetail = (props: BasePost) => {
+export const PostItem = (props: BasePost) => {
   const queryClient = useQueryClient();
 
-  const mutation = useMutation({
-    mutationFn: deletePostsQry,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-    },
-  });
-  console.log('mutaion', mutation);
   const likeMutation = useMutation({
     mutationFn: (data: { id: number; react: string }) => {
       return postReactQry(data.id, { react: data.react });
@@ -37,7 +30,7 @@ export const PostDetail = (props: BasePost) => {
   });
 
   return (
-    <Box maxW="600px" borderWidth="1px" borderRadius="lg">
+    <Box maxW="600px" borderWidth="1px" borderRadius="lg" marginTop="20px">
       <PostUser {...props.user} created={props.created} />
       <Text margin="0px 10px 10px 10px" textAlign="justify">
         {props.text}
@@ -69,7 +62,7 @@ export const PostDetail = (props: BasePost) => {
           <Text marginLeft="2px">Share</Text>
         </Box>
         <Box display="flex" alignItems="center" cursor="pointer" marginLeft="auto">
-          <Icon as={IoEllipsisHorizontalSharp} />
+          <PostExtraActions id={props.id}></PostExtraActions>
         </Box>
       </Box>
 
