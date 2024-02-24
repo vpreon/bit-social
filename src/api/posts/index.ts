@@ -1,6 +1,8 @@
 import { axios } from '@/lib/axios';
 
-export const postQry = (data: { text?: string; post?: number }): Promise<any> => {
+import { CreatePost } from './types';
+
+export const postQry = (data: CreatePost) => {
   return axios.post('/posts/', data).then((res) => res.data);
 };
 

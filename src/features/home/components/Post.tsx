@@ -1,4 +1,4 @@
-import { Post as PostProps } from '../types';
+import { Post as PostProps } from '@/types/posts';
 
 import { PostItem } from './PostItem';
 

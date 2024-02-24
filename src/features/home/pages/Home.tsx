@@ -1,30 +1,30 @@
-import { Button, Container, Grid, GridItem } from '@chakra-ui/react';
-import { useQuery } from '@tanstack/react-query';
+import { Container, Grid, GridItem } from '@chakra-ui/react';
+import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { AppDispatch, RootState } from '@/stores';
-import { increment, decrement } from '@/stores/counterSlice';
+import { getPosts } from '@/stores/posts';
 
-import { getPostsQry } from '../api/post';
 import { CreatePost } from '../components/CreatePost';
 import { Post } from '../components/Post';
 
 export const Home = () => {
-  const { data } = useQuery({ queryKey: ['posts'], queryFn: getPostsQry });
-
-  const count = useSelector((state: RootState) => state.counter.value);
+  const { loading, data } = useSelector((state: RootState) => state.posts);
   const dispatch = useDispatch<AppDispatch>();
+
+  useEffect(() => {
+    dispatch(getPosts());
+  }, [dispatch]);
+
   return (
     <Grid h="100%" templateColumns="repeat(12, 1fr)">
-      <GridItem colSpan={2}>
-        {count}
-        <Button onClick={() => dispatch(increment())}>Increment</Button>
-        <Button onClick={() => dispatch(decrement())}>Decrement</Button>
-      </GridItem>
+      <GridItem colSpan={2}>{loading && <div>Loading...</div>}</GridItem>
       <GridItem colSpan={8}>
         <Container backgroundColor="BlackAlpha 700">
           <CreatePost></CreatePost>
-          {data && data.map((item, key) => <Post key={key} {...item} />)}
+          {data.results.map((post) => {
+            return <Post key={post.id} {...post} />;
+          })}
         </Container>
       </GridItem>
       <GridItem colSpan={2}>right</GridItem>

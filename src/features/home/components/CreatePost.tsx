@@ -36,7 +36,6 @@ export const CreatePost = () => {
     console.log('medias', medias);
 
     if (medias) {
-      console.log('result', result);
       await Promise.all(
         Array.from(medias).map((media) => {
           return postMediaQry(result.id, { image: media });
