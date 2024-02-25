@@ -20,7 +20,14 @@ export const getPosts = createAsyncThunk('posts/getPosts', getPostsQry);
 const slice = createSlice({
   name: 'posts',
   initialState,
-  reducers: {},
+  reducers: {
+    insertPost: (state, action: PayloadAction<Post>) => {
+      state.data.results.unshift(action.payload);
+    },
+    removePost: (state, action: PayloadAction<number>) => {
+      state.data.results = state.data.results.filter((post) => post.id !== action.payload);
+    },
+  },
   extraReducers: (builder) => {
     builder.addCase(getPosts.pending, (state) => {
       state.loading = true;
@@ -31,5 +38,7 @@ const slice = createSlice({
     });
   },
 });
+
+export const { insertPost, removePost } = slice.actions;
 
 export default slice.reducer;

@@ -1,11 +1,11 @@
 import { Post as PostProps } from '@/types/posts';
 
-import { PostItem } from './PostItem';
+import { PostDetail } from './PostDetail';
 
 export const Post = (props: PostProps) => {
   if (props.share) {
-    return <PostItem {...props.share} />;
+    return <PostDetail {...props.share} />;
   } else {
-    return <PostItem {...props} />;
+    return <PostDetail {...props} />;
   }
 };

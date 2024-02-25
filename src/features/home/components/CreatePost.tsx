@@ -1,11 +1,14 @@
 import { Box, Button, Textarea, Input } from '@chakra-ui/react';
 import { zodResolver } from '@hookform/resolvers/zod';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
+import { useDispatch } from 'react-redux';
 import { z } from 'zod';
 
+import { getPostQry, postQry } from '@/api/posts';
+import { AppDispatch } from '@/stores';
+import { insertPost } from '@/stores/posts';
+
 import { postMediaQry } from '../api/media';
-import { postQry } from '../api/post';
 
 const schema = z.object({
   text: z.string().min(1, 'Text is Required'),
@@ -13,6 +16,7 @@ const schema = z.object({
 });
 
 export const CreatePost = () => {
+  const dispatch = useDispatch<AppDispatch>();
   type Form = z.infer<typeof schema>;
 
   const {
@@ -24,16 +28,9 @@ export const CreatePost = () => {
     resolver: zodResolver(schema),
   });
 
-  const queryClient = useQueryClient();
-
-  const mutation = useMutation({
-    mutationFn: postQry,
-  });
-
   const onSubmit = async (data: Form) => {
     const { medias, ...post } = data;
-    const result = await mutation.mutateAsync(post);
-    console.log('medias', medias);
+    const result = await postQry(post);
 
     if (medias) {
       await Promise.all(
@@ -41,9 +38,11 @@ export const CreatePost = () => {
           return postMediaQry(result.id, { image: media });
         })
       );
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-      reset();
     }
+    const getPost = await getPostQry(result.id);
+    dispatch(insertPost(getPost));
+
+    reset();
   };
 
   return (

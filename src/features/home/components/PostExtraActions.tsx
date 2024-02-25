@@ -1,18 +1,19 @@
 import { Icon, Menu, MenuButton, MenuItem, MenuList } from '@chakra-ui/react';
-import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { IoEllipsisHorizontalSharp } from 'react-icons/io5';
+import { useDispatch } from 'react-redux';
+
+import { AppDispatch } from '@/stores';
+import { removePost } from '@/stores/posts';
 
 import { deletePostsQry } from '../api/post';
 
 export const PostExtraActions = (props: { id: number }) => {
-  const queryClient = useQueryClient();
+  const dispatch = useDispatch<AppDispatch>();
 
-  const mutation = useMutation({
-    mutationFn: deletePostsQry,
-    onSuccess: () => {
-      queryClient.invalidateQueries({ queryKey: ['posts'] });
-    },
-  });
+  const handleDelete = async () => {
+    await deletePostsQry(props.id);
+    dispatch(removePost(props.id));
+  };
 
   return (
     <Menu placement="bottom-end">
@@ -20,7 +21,7 @@ export const PostExtraActions = (props: { id: number }) => {
         <Icon as={IoEllipsisHorizontalSharp} />
       </MenuButton>
       <MenuList>
-        <MenuItem as="a" onClick={() => mutation.mutate(props.id)}>
+        <MenuItem as="a" onClick={() => handleDelete()}>
           Delete
         </MenuItem>
       </MenuList>
