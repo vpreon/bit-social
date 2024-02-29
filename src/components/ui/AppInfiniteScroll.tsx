@@ -1,4 +1,4 @@
-import { Spinner } from '@chakra-ui/react';
+import { Box, Spinner, Text } from '@chakra-ui/react';
 import { useIntersection } from '@mantine/hooks';
 import { useEffect, ReactNode, useState } from 'react';
 
@@ -8,6 +8,8 @@ type Props = {
   children: ReactNode;
   infinite?: infinite;
   ready?: boolean;
+  noMore?: ReactNode;
+  loader?: ReactNode;
 };
 
 export const AppInfiniteScroll = (props: Props) => {
@@ -15,7 +17,7 @@ export const AppInfiniteScroll = (props: Props) => {
   const [loading, setLoading] = useState(false);
 
   const { ref, entry } = useIntersection({
-    threshold: 0.5,
+    threshold: 1,
   });
 
   useEffect(() => {
@@ -31,15 +33,21 @@ export const AppInfiniteScroll = (props: Props) => {
   }, [entry]);
 
   return (
-    <div>
+    <Box>
       {props.children}
       {hasMore ? (
-        <div ref={ref}>
-          <Spinner />
-        </div>
+        <Box m="15px 0" ref={ref}>
+          {props.loader}
+        </Box>
       ) : (
-        <span>No More</span>
+        props.noMore
       )}
-    </div>
+    </Box>
   );
+};
+
+AppInfiniteScroll.defaultProps = {
+  ready: true,
+  noMore: <Text p="10px 0"> -- no more --</Text>,
+  loader: <Spinner />,
 };

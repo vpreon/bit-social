@@ -5,6 +5,8 @@ import { Posts, Post } from '@/types';
 
 import { BaseStateEntity } from '../types';
 
+import { InsertPost } from './types';
+
 const initialState: BaseStateEntity<Post> = {
   loading: false,
   data: {
@@ -21,8 +23,12 @@ const slice = createSlice({
   name: 'posts',
   initialState,
   reducers: {
-    insertPost: (state, action: PayloadAction<Post>) => {
-      state.data.results.unshift(action.payload);
+    insertPost: (state, action: PayloadAction<InsertPost>) => {
+      if (action.payload.many && Array.isArray(action.payload.data)) {
+        state.data.results.unshift(...action.payload.data);
+      } else if (!action.payload.many && typeof action.payload.data === 'object') {
+        state.data.results.unshift(action.payload.data as Post);
+      }
     },
     removePost: (state, action: PayloadAction<number>) => {
       state.data.results = state.data.results.filter((post) => post.id !== action.payload);
