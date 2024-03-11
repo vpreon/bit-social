@@ -20,7 +20,6 @@ export const Posts = () => {
   const triggerInfinite = async (loaded: Fn, noMore: Fn) => {
     const result = await getPostsQry({ limit: limit, offset });
 
-    loaded();
     if (result.results.length > 0) {
       result.results.forEach((item: TPost) => {
         dispatch(insertPost({ data: item }));
@@ -32,6 +31,7 @@ export const Posts = () => {
     } else {
       setOffset(offset + limit);
     }
+    loaded();
   };
 
   return (
