@@ -14,7 +14,7 @@ export const AppInfiniteScroll = (props: Props) => {
   const [hasMore, setHasMore] = useState(true);
   const [loading, setLoading] = useState(false);
 
-  const observer: any = useRef();
+  const observer = useRef<IntersectionObserver>();
 
   const lastElementRef = useCallback(
     (node: HTMLElement | null) => {
