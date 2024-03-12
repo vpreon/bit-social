@@ -10,7 +10,7 @@ export const getPostsQry = (params?: GetPosts) => {
   return axios.get('/posts/', { params: params }).then((res) => res.data);
 };
 
-export const getPostQry = (id: number) => {
+export const getPostQry = (id: string) => {
   return axios.get(`/posts/${id}/`).then((res) => res.data);
 };
 

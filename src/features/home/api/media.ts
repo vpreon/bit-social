@@ -1,6 +1,5 @@
 import { axios } from '@/lib/axios';
-
-import { Media } from '../types';
+import { Media } from '@/types';
 
 export const postMediaQry = (id: number, data: Media) => {
   const formData = new FormData();

@@ -1,7 +1,7 @@
 import { Box, Image } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 
-import { Media } from '../types';
+import { Media } from '@/types';
 
 export const Gallery = (props: { medias: Media[] }) => {
   const [primaryImage, setPrimaryImage] = useState<Media>();

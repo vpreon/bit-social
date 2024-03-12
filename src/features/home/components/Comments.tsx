@@ -5,8 +5,9 @@ import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod';
 
+import { Comment as CommentProps } from '@/types';
+
 import { deleteCommentQry, postCommentQry } from '../api/comments';
-import { Comment as CommentProps } from '../types';
 
 type CommentsProps = {
   comments: CommentProps[];

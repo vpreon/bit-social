@@ -7,6 +7,7 @@ type Props = {
   children: ReactNode;
   infinite?: infinite;
   noMore?: ReactNode;
+  ready?: boolean;
   loader?: ReactNode;
 };
 
@@ -22,7 +23,7 @@ export const AppInfiniteScroll = (props: Props) => {
       if (observer.current) observer.current.disconnect();
 
       observer.current = new IntersectionObserver((entries) => {
-        if (entries[0].isIntersecting && hasMore) {
+        if (entries[0].isIntersecting && hasMore && props.ready) {
           if (props.infinite) {
             setLoading(true);
             const loaded = () => setLoading(false);
@@ -54,5 +55,6 @@ export const AppInfiniteScroll = (props: Props) => {
 
 AppInfiniteScroll.defaultProps = {
   noMore: <Text p="10px 0"> -- no more --</Text>,
+  ready: true,
   loader: <Spinner />,
 };

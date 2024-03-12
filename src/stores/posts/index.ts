@@ -9,6 +9,7 @@ import { InsertPost } from './types';
 
 const initialState: BaseStateEntity<Post> = {
   loading: false,
+  offset: 1,
   data: {
     count: 0,
     previous: null,
@@ -25,13 +26,16 @@ const slice = createSlice({
   reducers: {
     insertPost: (state, action: PayloadAction<InsertPost>) => {
       if (action.payload.many && Array.isArray(action.payload.data)) {
-        state.data.results.unshift(...action.payload.data);
+        state.data.results.push(...action.payload.data);
       } else if (!action.payload.many && typeof action.payload.data === 'object') {
-        state.data.results.unshift(action.payload.data as Post);
+        state.data.results.push(action.payload.data as Post);
       }
     },
     removePost: (state, action: PayloadAction<number>) => {
       state.data.results = state.data.results.filter((post) => post.id !== action.payload);
+    },
+    setOffset: (state, action: PayloadAction<number>) => {
+      state.offset = action.payload;
     },
   },
   extraReducers: (builder) => {
@@ -45,6 +49,6 @@ const slice = createSlice({
   },
 });
 
-export const { insertPost, removePost } = slice.actions;
+export const { insertPost, removePost, setOffset } = slice.actions;
 
 export default slice.reducer;
