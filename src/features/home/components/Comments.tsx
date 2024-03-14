@@ -51,7 +51,7 @@ export const Comments = (props: CommentsProps) => {
   });
 
   return (
-    <div>
+    <div id="comments">
       <p>Comments</p>
       {props.comments.map((item) => {
         return (

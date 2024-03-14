@@ -16,7 +16,8 @@ export const PostDetail = () => {
         setPost(res);
       });
     }
-  }, []);
+  }, [id]);
+  console.log('test');
 
   if (post) {
     if (post.share) {

@@ -1,4 +1,3 @@
-import { Container } from '@chakra-ui/react';
 import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
@@ -36,17 +35,17 @@ export const Posts = () => {
     setReady(true);
   }, []);
   return (
-    <Container backgroundColor="BlackAlpha 700">
+    <>
       <CreatePost></CreatePost>
       <AppInfiniteScroll infinite={triggerInfinite} ready={ready}>
-        {data.results.map((post, idx) => {
+        {data.results.map((post) => {
           if (post.share) {
-            return <Post key={idx} {...post.share} />;
+            return <Post key={post.id} {...post.share} />;
           } else {
-            return <Post key={idx} {...post} />;
+            return <Post key={post.id} {...post} />;
           }
         })}
       </AppInfiniteScroll>
-    </Container>
+    </>
   );
 };
